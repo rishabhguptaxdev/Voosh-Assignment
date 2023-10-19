@@ -7,7 +7,7 @@ const {
 } = require("../controllers/orderController");
 const { isLoggedIn } = require("../middlewares/user");
 
-router.route("/add-order").post(isLoggedIn, createOrder);
-router.route("/get-order").get(isLoggedIn, getLoggedInUserOrder);
+router.route("/addorder").post(isLoggedIn, createOrder);
+router.route("/getorder").get(isLoggedIn, getLoggedInUserOrder);
 
 module.exports = router;
