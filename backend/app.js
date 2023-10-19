@@ -3,6 +3,5 @@ const app = express();
 
 require("dotenv").config();
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is up and running at ${process.env.PORT}`);
-});
+// export app js
+module.exports = app;
