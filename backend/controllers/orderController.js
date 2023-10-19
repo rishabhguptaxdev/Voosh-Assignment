@@ -15,3 +15,16 @@ exports.createOrder = BigPromise(async (req, res) => {
     order,
   });
 });
+
+exports.getLoggedInUserOrder = BigPromise(async (req, res, next) => {
+  const order = await Order.find({ user: req.user._id });
+
+  if (!order) {
+    return next(new CustomError("No orders found for this user", 401));
+  }
+
+  res.status(200).json({
+    success: true,
+    order,
+  });
+});
