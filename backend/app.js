@@ -2,10 +2,14 @@ const express = require("express");
 const app = express();
 
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 // regular middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// cookies and file middlewares
+app.use(cookieParser());
 
 // import all routes
 const home = require("./routes/home");

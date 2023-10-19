@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const BigPromise = require("../middlewares/bigPromise");
+const cookieToken = require("../utils/cookieToken");
 const CustomError = require("../utils/customErrors");
 
 exports.signup = BigPromise(async (req, res, next) => {
@@ -19,9 +20,5 @@ exports.signup = BigPromise(async (req, res, next) => {
     password,
   });
 
-  user.password = undefined;
-  res.status(201).json({
-    success: true,
-    user,
-  });
+  cookieToken(user, res);
 });
