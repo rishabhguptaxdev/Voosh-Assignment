@@ -1,5 +1,5 @@
 {
-  "name": "voosh-assignment",
+  "name": "backend",
   "version": "1.0.0",
   "description": "assignment to create api who can create order and view orders with user authentication.",
   "main": "index.js",
