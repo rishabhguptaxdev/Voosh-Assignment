@@ -1,0 +1,88 @@
+.page-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 999999;
+  }
+  
+  .page-loader {
+    position: relative;
+    left: calc(45% - 50px);
+    top: 40%;
+  }
+  
+  :root {
+    --darkColor: #393e46;
+    --lightColor: #eeeeee;
+    --headingColor: green;
+    --heading: "Libre Baskerville", serif;
+    --paragraph: "Cutive Mono", monospace;
+    --button: "Julius Sans One", sans-serif;
+  }
+  
+  * {
+    margin: 0px;
+    padding: 0px;
+  }
+  body {
+    background-color: var(--lightColor);
+    scroll-behavior: smooth;
+  }
+  button,
+  a {
+    font-family: var(--button);
+    text-decoration: none;
+  }
+  
+  p {
+    font-family: var(--paragraph);
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--heading);
+  }
+  
+  /*navigation bar starts here*/
+  
+  .navbar-brand span {
+    color: whitesmoke;
+  }
+  
+  .navbar {
+    background-color: var(--darkColor) !important;
+  }
+  
+  .navbar li {
+    padding: 10px;
+  }
+  
+  .nav-item:hover a {
+    color: whitesmoke !important;
+    transition: 0.7s;
+  }
+  
+  .navbar a {
+    color: var(--headingColor) !important;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+  }
+  
+  /*navigation bar ends here*/
+  
+  .authenticationCard .btn {
+    background-color: var(--headingColor);
+    border-color: var(--headingColor);
+  }
+  
+  .authenticationCard a {
+    color: var(--darkColor);
+  }
+  
