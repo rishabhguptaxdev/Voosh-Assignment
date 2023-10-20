@@ -14,14 +14,18 @@ const AddOrder = () => {
   const handleAddOrder = async (e) => {
     context.showLoader();
     try {
-      const instance = axios.create({
-        withCredentials: true, // This allows cookies to be sent and received
-      });
-      await instance
-        .post(process.env.REACT_APP_API_BASE_URL + "/addorder", {
-          subTotal: parseInt(subTotal),
-          phone: phone,
-        })
+      await axios
+        .post(
+          process.env.REACT_APP_API_BASE_URL + "/addorder",
+          {
+            subTotal: parseInt(subTotal),
+            phone: phone,
+          },
+          {
+            withCredentials: true,
+            credentials: "include",
+          }
+        )
         .then((response) => {
           if (response.status == 201) {
             toast("Order created successfully", { type: "success" });

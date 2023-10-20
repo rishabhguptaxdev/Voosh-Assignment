@@ -9,6 +9,8 @@ exports.isLoggedIn = BigPromise(async (req, res, next) => {
     req.header("Authorization")?.replace("Bearer ", "") ||
     req.body?.token;
 
+  console.log(req.cookies);
+
   if (!token) {
     return next(new CustomError("You are not logged in"), 401);
   }

@@ -13,14 +13,18 @@ const UserLogin = () => {
   const handleLogin = async (e) => {
     context.showLoader();
     try {
-      const instance = axios.create({
-        withCredentials: true, // This allows cookies to be sent and received
-      });
-      await instance
-        .post(process.env.REACT_APP_API_BASE_URL + "/loginuser", {
-          phone: phone,
-          password: password,
-        })
+      await axios
+        .post(
+          process.env.REACT_APP_API_BASE_URL + "/loginuser",
+          {
+            phone: phone,
+            password: password,
+          },
+          {
+            withCredentials: true,
+            credentials: "include",
+          }
+        )
         .then((response) => {
           if (response.status == 200) {
             context.setIsLoggedIn(1);

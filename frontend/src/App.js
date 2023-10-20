@@ -38,11 +38,11 @@ const App = () => {
 
   const getOrder = async () => {
     try {
-      const instance = axios.create({
-        withCredentials: true, // This allows cookies to be sent and received
-      });
-      await instance
-        .get(process.env.REACT_APP_API_BASE_URL + "/getorder")
+      await axios
+        .get(process.env.REACT_APP_API_BASE_URL + "/getorder", {
+          withCredentials: true,
+          credentials: "include",
+        })
         .then((response) => {
           if (response.status == 200) {
             hideLoader();
