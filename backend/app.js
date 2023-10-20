@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // cors filter middleware
 const corsOptions = {
-  origin: "https://voosh-assignment-a5up.onrender.com",
+  origin: `${process.env.ALLOWED_ORIGIN}`,
   credentials: true,
 };
 app.use(cors(corsOptions));

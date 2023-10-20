@@ -18,14 +18,10 @@ const AddOrder = () => {
         withCredentials: true, // This allows cookies to be sent and received
       });
       await instance
-        .post(
-          process.env.REACT_APP_API_BASE_URL + "/addorder",
-          {
-            subTotal: parseInt(subTotal),
-            phone: phone,
-          },
-          { withcredentials: true }
-        )
+        .post(process.env.REACT_APP_API_BASE_URL + "/addorder", {
+          subTotal: parseInt(subTotal),
+          phone: phone,
+        })
         .then((response) => {
           if (response.status == 201) {
             toast("Order created successfully", { type: "success" });

@@ -17,15 +17,11 @@ const UserSignup = () => {
         withCredentials: true, // This allows cookies to be sent and received
       });
       await instance
-        .post(
-          process.env.REACT_APP_API_BASE_URL + "/adduser",
-          {
-            name: name,
-            phone: phone,
-            password: password,
-          },
-          { withcredentials: true }
-        )
+        .post(process.env.REACT_APP_API_BASE_URL + "/adduser", {
+          name: name,
+          phone: phone,
+          password: password,
+        })
         .then((response) => {
           if (response.status == 200) {
             context.setIsLoggedIn(1);
