@@ -8,7 +8,7 @@ const Home = () => {
   if (!context?.isLoggedIn) {
     return <Navigate to="/loginuser" />;
   } else {
-    return <Navigate to="/addorder" />;
+    return <Navigate to="/getorder" />;
   }
 };
 

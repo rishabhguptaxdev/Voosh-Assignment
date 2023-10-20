@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const UserSignup = () => {
   const context = useContext(UserContext);
@@ -29,11 +30,14 @@ const UserSignup = () => {
           if (response.status == 200) {
             context.setIsLoggedIn(1);
             console.log(response);
+            toast(`Welcome ${response.data.user.name}`, { type: "info" });
             context.hideLoader();
             <Navigate to="/" />;
           }
         });
     } catch (error) {
+      toast(`Something went wrong.`, { type: "error" });
+
       console.log(error);
       context.hideLoader();
     }
@@ -51,7 +55,7 @@ const UserSignup = () => {
   return (
     <>
       <div
-        className="row cover authenticationCard"
+        className="row cover card"
         style={{
           display: "flex",
           justifyContent: "center",

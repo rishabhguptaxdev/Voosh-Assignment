@@ -30,6 +30,11 @@ const NavBar = () => {
               {context?.isLoggedIn ? (
                 <>
                   <li className="nav-item">
+                    <Link className="nav-link" onClick={() => {}}>
+                      {context.user}
+                    </Link>
+                  </li>
+                  <li className="nav-item">
                     <Link
                       className="nav-link"
                       to="/addorder"

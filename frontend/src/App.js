@@ -24,7 +24,7 @@ import NotFound from "./pages/NotFound";
 import UserContext from "./contexts/UserContext";
 
 //toast
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 //Created Hooks
@@ -33,6 +33,7 @@ import usePageLoader from "./components/UsePageLoader";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(0);
   const [orders, setOrders] = useState([]);
+  const [user, setUser] = useState("");
   const [loader, showLoader, hideLoader] = usePageLoader();
 
   const getOrder = async () => {
@@ -47,7 +48,6 @@ const App = () => {
             hideLoader();
             setIsLoggedIn(1);
             setOrders(response.data.order);
-            console.log(response.data);
           }
         });
     } catch (error) {
@@ -57,7 +57,7 @@ const App = () => {
 
   useEffect(() => {
     getOrder();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, user]);
 
   return (
     <>
@@ -65,6 +65,9 @@ const App = () => {
       <UserContext.Provider
         value={{
           orders,
+          setOrders,
+          user,
+          setUser,
           isLoggedIn,
           setIsLoggedIn,
           loader,

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 //Components
 
@@ -16,6 +17,7 @@ const Logout = () => {
           if (response.status == 200) {
             console.log(response);
             context.setIsLoggedIn(0);
+            // toast("Logged out successfully", { type: "success" });
             context.hideLoader();
           }
         });
@@ -30,7 +32,7 @@ const Logout = () => {
 
   return (
     <>
-      <h1>Logout</h1>
+      <h1 className="text-center p-3">You are Logged out</h1>
     </>
   );
 };

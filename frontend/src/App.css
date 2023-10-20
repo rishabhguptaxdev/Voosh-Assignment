@@ -77,12 +77,12 @@
   
   /*navigation bar ends here*/
   
-  .authenticationCard .btn {
+  .card .btn {
     background-color: var(--headingColor);
     border-color: var(--headingColor);
   }
   
-  .authenticationCard a {
+  .card a {
     color: var(--darkColor);
   }
   
