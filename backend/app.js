@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // cors filter middleware
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://voosh-assignment-a5up.onrender.com",
   credentials: true,
 };
 app.use(cors(corsOptions));
