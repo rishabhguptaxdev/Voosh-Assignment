@@ -32,6 +32,7 @@ import usePageLoader from "./components/UsePageLoader";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(0);
+  const [orders, setOrders] = useState([]);
   const [loader, showLoader, hideLoader] = usePageLoader();
 
   const getOrder = async () => {
@@ -45,6 +46,7 @@ const App = () => {
           if (response.status == 200) {
             hideLoader();
             setIsLoggedIn(1);
+            setOrders(response.data.order);
             console.log(response.data);
           }
         });
@@ -62,6 +64,7 @@ const App = () => {
       <ToastContainer />
       <UserContext.Provider
         value={{
+          orders,
           isLoggedIn,
           setIsLoggedIn,
           loader,
