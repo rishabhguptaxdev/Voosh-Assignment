@@ -7,7 +7,7 @@ import UserContext from "../contexts/UserContext";
 const AddOrder = () => {
   const context = useContext(UserContext);
   if (!context?.isLoggedIn) {
-    return <Navigate to="/loginuser" />;
+    return <Navigate to="/" />;
   }
   return (
     <>

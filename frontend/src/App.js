@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 //Routing
 import { Routes, Route } from "react-router-dom";
@@ -33,7 +34,28 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(0);
   const [loader, showLoader, hideLoader] = usePageLoader();
 
-  useEffect(() => {}, []);
+  const getOrder = async () => {
+    try {
+      const instance = axios.create({
+        withCredentials: true, // This allows cookies to be sent and received
+      });
+      await instance
+        .get(process.env.REACT_APP_API_BASE_URL + "/getorder")
+        .then((response) => {
+          if (response.status == 200) {
+            hideLoader();
+            setIsLoggedIn(1);
+            console.log(response.data);
+          }
+        });
+    } catch (error) {
+      hideLoader();
+    }
+  };
+
+  useEffect(() => {
+    getOrder();
+  }, [isLoggedIn]);
 
   return (
     <>

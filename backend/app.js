@@ -3,10 +3,18 @@ const app = express();
 
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // regular middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// cors filter middleware
+const corsOptions = {
+  origin: "http://localhost:3000", // Replace with the actual origin of your React app
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // cookies and file middlewares
 app.use(cookieParser());

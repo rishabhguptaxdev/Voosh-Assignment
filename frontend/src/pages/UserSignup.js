@@ -1,8 +1,7 @@
 import { useState, useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-
-import { toast } from "react-toastify";
+import axios from "axios";
 
 const UserSignup = () => {
   const context = useContext(UserContext);
@@ -10,14 +9,44 @@ const UserSignup = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
     context.showLoader();
+    try {
+      const instance = axios.create({
+        withCredentials: true, // This allows cookies to be sent and received
+      });
+      await instance
+        .post(
+          process.env.REACT_APP_API_BASE_URL + "/adduser",
+          {
+            name: name,
+            phone: phone,
+            password: password,
+          },
+          { withcredentials: true }
+        )
+        .then((response) => {
+          if (response.status == 200) {
+            context.setIsLoggedIn(1);
+            console.log(response);
+            context.hideLoader();
+            <Navigate to="/" />;
+          }
+        });
+    } catch (error) {
+      console.log(error);
+      context.hideLoader();
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleSignUp();
   };
+
+  if (context?.isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>
