@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { setCookie } from "../utils/setCookie";
 
 const UserLogin = () => {
   const context = useContext(UserContext);
@@ -27,6 +28,7 @@ const UserLogin = () => {
             context.setUser(response.data.user.name);
             toast(`Welcome ${response.data.user.name}`, { type: "info" });
             context.hideLoader();
+            setCookie("token", response.data.token, 1);
             <Navigate to="/" />;
           }
         });
