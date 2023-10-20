@@ -46,4 +46,4 @@ userSchema.methods.getJwtToken = function () {
   });
 };
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("VooshUser", userSchema);

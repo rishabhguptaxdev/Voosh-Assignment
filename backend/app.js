@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // cors filter middleware
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with the actual origin of your React app
+  origin: "http://localhost:3000",
   credentials: true,
 };
 app.use(cors(corsOptions));
