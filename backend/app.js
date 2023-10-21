@@ -9,6 +9,9 @@ const cors = require("cors");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// cookies and file middlewares
+app.use(cookieParser());
+
 // cors filter middleware
 // const corsOptions = {
 //   origin: `${process.env.ALLOWED_ORIGIN}`,
@@ -32,9 +35,6 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
-// cookies and file middlewares
-app.use(cookieParser());
 
 // import all routes
 const home = require("./routes/home");

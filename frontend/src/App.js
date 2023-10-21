@@ -30,21 +30,28 @@ import "react-toastify/dist/ReactToastify.min.css";
 //Created Hooks
 import usePageLoader from "./components/UsePageLoader";
 
-import { getCookie } from "./utils/cookie";
+import { getToken } from "./utils/cookie";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(0);
   const [orders, setOrders] = useState([]);
-  const [token, setToken] = useState("");
   const [user, setUser] = useState("");
   const [loader, showLoader, hideLoader] = usePageLoader();
 
   const getOrder = async () => {
     try {
       await axios
-        .get(process.env.REACT_APP_API_BASE_URL + "/getorder", {
-          withCredentials: true,
-        })
+        .get(
+          process.env.REACT_APP_API_BASE_URL + "/getorder",
+          {
+            headers: {
+              Authorization: `Bearer ${getToken()}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
           if (response.status == 200) {
             hideLoader();
@@ -59,8 +66,6 @@ const App = () => {
 
   useEffect(() => {
     getOrder();
-    // setToken(getCookie());
-    // console.log(getCookie());
   }, [isLoggedIn, user]);
 
   return (

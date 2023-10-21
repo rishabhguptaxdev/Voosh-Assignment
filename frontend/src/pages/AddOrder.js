@@ -5,6 +5,7 @@ import UserContext from "../contexts/UserContext";
 //Components
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getToken } from "../utils/cookie";
 
 const AddOrder = () => {
   const context = useContext(UserContext);
@@ -20,6 +21,11 @@ const AddOrder = () => {
           {
             subTotal: parseInt(subTotal),
             phone: phone,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${getToken()}`,
+            },
           },
           {
             withCredentials: true,
