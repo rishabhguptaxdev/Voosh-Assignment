@@ -1,13 +1,13 @@
 import { useState, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { setCookie } from "../utils/cookie";
+import { getToken, setCookie } from "../utils/cookie";
 
 const UserLogin = () => {
   const context = useContext(UserContext);
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
@@ -17,7 +17,7 @@ const UserLogin = () => {
         .post(
           process.env.REACT_APP_API_BASE_URL + "/loginuser",
           {
-            phone: phone,
+            email: email,
             password: password,
           },
           {
@@ -26,19 +26,23 @@ const UserLogin = () => {
         )
         .then((response) => {
           if (response.status == 200) {
-            context.setIsLoggedIn(1);
-            console.log(response);
-            context.setUser(response.data.user.name);
-            toast(`Welcome ${response.data.user.name}`, { type: "info" });
             context.hideLoader();
-            setCookie(response.data?.token);
-            <Navigate to="/" />;
+            setCookie(response.data?.token, context);
+            context.setUserName(response.data.userName);
+            console.log("user logged in successfully.");
+            toast(`Welcome ${response.data.user.name}`, { type: "info" });
+          } else {
+            console.log(
+              "did not get 200 response from server, means something is wrong, so try log in."
+            );
+            toast("Please try to login again.", { type: "warning" });
+            return <Navigate to="/loginuser" />;
           }
         });
     } catch (error) {
-      console.log(error);
-      toast("something went wrong", { type: "error" });
       context.hideLoader();
+      toast("something went wrong", { type: "error" });
+      console.log("something went wrong while login.");
     }
   };
 
@@ -47,8 +51,8 @@ const UserLogin = () => {
     handleLogin(e);
   };
 
-  if (context.isLoggedIn) {
-    return <Navigate to="/" />;
+  if (getToken()) {
+    return <Navigate to="/getorder" />;
   }
 
   return (
@@ -68,15 +72,15 @@ const UserLogin = () => {
               <h4 className="card-title text-center">User Login</h4>
               <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="mb-3">
-                  <label htmlFor="phone" className="form-label">
-                    Phone Number
+                  <label htmlFor="email" className="form-label">
+                    Email
                   </label>
                   <input
-                    type="phone"
+                    type="email"
                     className="form-control"
-                    id="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">

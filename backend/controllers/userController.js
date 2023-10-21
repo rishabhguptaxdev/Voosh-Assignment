@@ -4,19 +4,19 @@ const cookieToken = require("../utils/cookieToken");
 const CustomError = require("../utils/customErrors");
 
 exports.signup = BigPromise(async (req, res, next) => {
-  const { name, phone, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!name || !phone || !password) {
+  if (!name || !email || !password) {
     return next(new CustomError("Name, phone, password are required", 400));
   }
 
-  if (await User.findOne({ phone })) {
+  if (await User.findOne({ email })) {
     res.status(401).send("User already exists");
   }
 
   const user = await User.create({
     name,
-    phone,
+    email,
     password,
   });
 
@@ -24,19 +24,19 @@ exports.signup = BigPromise(async (req, res, next) => {
 });
 
 exports.login = BigPromise(async (req, res, next) => {
-  const { phone, password } = req.body;
+  const { email, password } = req.body;
 
   // check if phone or password is missing
-  if (!phone || !password) {
+  if (!email || !password) {
     return next(new CustomError("Phone and Password both are required", 400));
   }
 
   // get user from db
-  const user = await User.findOne({ phone }).select("+password");
+  const user = await User.findOne({ email }).select("+password");
 
   // if user not found in db
   if (!user) {
-    return next(new CustomError("Phone is not registered", 400));
+    return next(new CustomError("Email is not registered", 400));
   }
 
   // match the password

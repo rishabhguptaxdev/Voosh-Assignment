@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-
-//Components
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getToken } from "../utils/cookie";
@@ -33,17 +31,16 @@ const AddOrder = () => {
         )
         .then((response) => {
           if (response.status == 201) {
-            toast("Order created successfully", { type: "success" });
             let newOrder = [...context.orders, response.data.order];
-            console.log(response);
             context.setOrders(newOrder);
             context.hideLoader();
+            toast("Order created successfully", { type: "success" });
           }
         });
     } catch (error) {
-      console.log(error);
-      toast("Something went wrong", { type: "error" });
       context.hideLoader();
+      console.log("something went wromng while creating order to server.");
+      toast("Something went wrong", { type: "error" });
     }
   };
 
@@ -52,8 +49,8 @@ const AddOrder = () => {
     handleAddOrder();
   };
 
-  if (!context?.isLoggedIn) {
-    return <Navigate to="/" />;
+  if (!getToken()) {
+    return <Navigate to="/loginuser" />;
   }
 
   return (

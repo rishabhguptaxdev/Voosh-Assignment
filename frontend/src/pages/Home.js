@@ -1,14 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
-import UserContext from "../contexts/UserContext";
+import { getToken } from "../utils/cookie";
 
 const Home = () => {
-  const context = useContext(UserContext);
-
-  if (!context?.isLoggedIn) {
-    return <Navigate to="/loginuser" />;
-  } else {
+  if (getToken()) {
+    console.log(
+      "redirecting to get order /getorder route because token is found in the cookie."
+    );
     return <Navigate to="/getorder" />;
+  } else {
+    console.log(
+      "redirecting to login screen /loginuser because token is not found in the cookie."
+    );
+    return <Navigate to="/loginuser" />;
   }
 };
 

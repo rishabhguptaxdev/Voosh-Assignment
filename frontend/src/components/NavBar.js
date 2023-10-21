@@ -1,9 +1,35 @@
 import React, { useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
   const context = useContext(UserContext);
+
+  const handleLogout = async () => {
+    try {
+      await axios
+        .get(
+          process.env.REACT_APP_API_BASE_URL + "/logout",
+
+          {
+            withCredentials: true, // This allows cookies to be sent and received
+          }
+        )
+        .then((response) => {
+          if (response.status == 200) {
+            console.log(response);
+            context.setIsLoggedIn(0);
+            context.hideLoader();
+            toast("Logged out successfully", { type: "info" });
+          }
+        });
+    } catch (error) {
+      console.log("something went wrong while log out.");
+      context.hideLoader();
+    }
+  };
 
   return (
     <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
@@ -53,7 +79,13 @@ const NavBar = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/logout" onClick={() => {}}>
+                    <Link
+                      className="nav-link"
+                      to="/"
+                      onClick={() => {
+                        handleLogout();
+                      }}
+                    >
                       Logout <i className="fas fa-sign-out-alt"></i>
                     </Link>
                   </li>

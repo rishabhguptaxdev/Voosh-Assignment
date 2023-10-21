@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -8,10 +9,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please provide a name."],
     maxlength: [30, "Name should be max of 30 letters."],
   },
-  phone: {
+  email: {
     type: String,
-    minlength: [10, "length of phone number can not be less than 10."],
-    maxlength: [10, "length of phone number can not be greater than 10."],
+    required: [true, "Please provide an email"],
+    validate: [validator.isEmail, "Please enter email in correct format"],
     unique: true,
   },
   password: {
@@ -19,6 +20,11 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please provide a password."],
     minlength: [5, "Password should be min of 5 letters."],
     select: false,
+  },
+  phone: {
+    type: String,
+    minlength: [10, "length of phone number can not be less than 10."],
+    maxlength: [10, "length of phone number can not be greater than 10."],
   },
   createdAt: {
     type: Date,

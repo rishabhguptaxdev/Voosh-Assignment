@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 
 //Routing
 import { Routes, Route } from "react-router-dom";
@@ -17,66 +16,33 @@ import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
 import AddOrder from "./pages/AddOrder";
 import GetOrder from "./pages/GetOrder";
-import Logout from "./pages/Logout";
 import NotFound from "./pages/NotFound";
 
 //Contexts
 import UserContext from "./contexts/UserContext";
 
 //toast
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 //Created Hooks
 import usePageLoader from "./components/UsePageLoader";
 
-import { getToken } from "./utils/cookie";
-
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(0);
   const [orders, setOrders] = useState([]);
-  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [loader, showLoader, hideLoader] = usePageLoader();
-
-  const getOrder = async () => {
-    try {
-      await axios
-        .get(
-          process.env.REACT_APP_API_BASE_URL + "/getorder",
-          {
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          if (response.status == 200) {
-            hideLoader();
-            setIsLoggedIn(1);
-            setOrders(response.data.order);
-          }
-        });
-    } catch (error) {
-      hideLoader();
-    }
-  };
-
-  useEffect(() => {
-    getOrder();
-  }, [isLoggedIn, user]);
 
   return (
     <>
       <ToastContainer />
       <UserContext.Provider
         value={{
+          userName,
+          setUserName,
           orders,
           setOrders,
-          user,
-          setUser,
           isLoggedIn,
           setIsLoggedIn,
           loader,
@@ -91,7 +57,6 @@ const App = () => {
           <Route path="/adduser" element={<UserSignup />} />
           <Route path="/addorder" element={<AddOrder />} />
           <Route path="/getorder" element={<GetOrder />} />
-          <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </UserContext.Provider>

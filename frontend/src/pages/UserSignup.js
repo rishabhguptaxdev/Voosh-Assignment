@@ -1,14 +1,19 @@
 import { useState, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getToken, setCookie } from "../utils/cookie";
 
 const UserSignup = () => {
   const context = useContext(UserContext);
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  if (getToken()) {
+    return <Navigate to="/getorder" />;
+  }
 
   const handleSignUp = async (e) => {
     context.showLoader();
@@ -18,7 +23,7 @@ const UserSignup = () => {
           process.env.REACT_APP_API_BASE_URL + "/adduser",
           {
             name: name,
-            phone: phone,
+            email: email,
             password: password,
           },
           {
@@ -27,18 +32,17 @@ const UserSignup = () => {
         )
         .then((response) => {
           if (response.status == 200) {
-            context.setIsLoggedIn(1);
-            console.log(response);
-            toast(`Welcome ${response.data.user.name}`, { type: "info" });
             context.hideLoader();
-            <Navigate to="/" />;
+            setCookie(response.data.token, context);
+            context.setUserName(response.data.userName);
+            console.log("user signed up successfully");
+            toast(`Welcome ${response.data.user.name}`, { type: "info" });
           }
         });
     } catch (error) {
-      toast(`Something went wrong.`, { type: "error" });
-
-      console.log(error);
       context.hideLoader();
+      console.log("something went wrong while doing signup.");
+      toast(`Something went wrong.`, { type: "error" });
     }
   };
 
@@ -46,10 +50,6 @@ const UserSignup = () => {
     e.preventDefault();
     handleSignUp();
   };
-
-  if (context?.isLoggedIn) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <>
@@ -80,15 +80,15 @@ const UserSignup = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="phone" className="form-label">
-                    Phone Number
+                  <label htmlFor="email" className="form-label">
+                    Email
                   </label>
                   <input
-                    type="phone"
+                    type="email"
                     className="form-control"
-                    id="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
