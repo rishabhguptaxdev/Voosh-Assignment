@@ -5,7 +5,7 @@ const CustomError = require("../utils/customErrors");
 
 exports.signup = BigPromise(async (req, res, next) => {
   const { name, email, password } = req.body;
-  console.log(req.body);
+
   if (!name || !email || !password) {
     return next(new CustomError("Name, email, password are required", 400));
   }
