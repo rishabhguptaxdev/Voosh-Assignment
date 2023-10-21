@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { setCookie } from "../utils/cookie";
+// import { setCookie } from "../utils/cookie";
 
 const UserLogin = () => {
   const context = useContext(UserContext);
@@ -22,7 +22,6 @@ const UserLogin = () => {
           },
           {
             withCredentials: true,
-            credentials: "include",
           }
         )
         .then((response) => {

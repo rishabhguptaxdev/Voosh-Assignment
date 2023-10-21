@@ -10,6 +10,8 @@ export function setCookie(token) {
 // Method to get data from cookies
 export function getCookie() {
   console.log(Cookies.get("token"));
+  // console.log(Cookies.get());
+  // console.log(document.cookie);
   return Cookies.get("token");
 }
 

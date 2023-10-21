@@ -35,7 +35,7 @@ import { getCookie } from "./utils/cookie";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(0);
   const [orders, setOrders] = useState([]);
-  const [cookie, setCookie] = useState("");
+  const [token, setToken] = useState("");
   const [user, setUser] = useState("");
   const [loader, showLoader, hideLoader] = usePageLoader();
 
@@ -59,8 +59,8 @@ const App = () => {
 
   useEffect(() => {
     getOrder();
-    // setCookie(getCookie());
-    // console.log(cookie);
+    // setToken(getCookie());
+    // console.log(getCookie());
   }, [isLoggedIn, user]);
 
   return (
