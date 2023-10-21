@@ -8,7 +8,8 @@ const orderSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: true,
+    minlength: [10, "length of phone number can not be less than 10."],
+    maxlength: [10, "length of phone number can not be greater than 10."],
   },
   subTotal: {
     type: Number,

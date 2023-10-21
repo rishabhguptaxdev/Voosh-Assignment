@@ -21,11 +21,6 @@ const userSchema = new mongoose.Schema({
     minlength: [5, "Password should be min of 5 letters."],
     select: false,
   },
-  phone: {
-    type: String,
-    minlength: [10, "length of phone number can not be less than 10."],
-    maxlength: [10, "length of phone number can not be greater than 10."],
-  },
   createdAt: {
     type: Date,
     default: Date.now,

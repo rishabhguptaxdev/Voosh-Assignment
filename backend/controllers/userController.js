@@ -5,13 +5,15 @@ const CustomError = require("../utils/customErrors");
 
 exports.signup = BigPromise(async (req, res, next) => {
   const { name, email, password } = req.body;
-
+  console.log(req.body);
   if (!name || !email || !password) {
-    return next(new CustomError("Name, phone, password are required", 400));
+    return next(new CustomError("Name, email, password are required", 400));
   }
 
   if (await User.findOne({ email })) {
+    console.log("user already exists");
     res.status(401).send("User already exists");
+    return;
   }
 
   const user = await User.create({
