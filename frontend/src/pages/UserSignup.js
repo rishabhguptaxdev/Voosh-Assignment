@@ -23,7 +23,6 @@ const UserSignup = () => {
           },
           {
             withCredentials: true,
-            credentials: "include",
           }
         )
         .then((response) => {
