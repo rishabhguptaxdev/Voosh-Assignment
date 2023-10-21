@@ -16,7 +16,6 @@ export function getToken() {
 }
 
 // Method to remove cookie
-// Method to get data from cookies
 export function removeCookie() {
   const token = Cookies.get("token");
   if (token) {
