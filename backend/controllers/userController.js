@@ -4,24 +4,36 @@ const cookieToken = require("../utils/cookieToken");
 const CustomError = require("../utils/customErrors");
 
 exports.signup = BigPromise(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, loginBy } = req.body;
 
-  if (!name || !email || !password) {
-    return next(new CustomError("Name, email, password are required", 400));
+  if (!name || !email || !password || !loginBy) {
+    return next(
+      new CustomError("Name, email, password, and loginBy are required", 400)
+    );
   }
 
-  if (await User.findOne({ email })) {
+  let user = await User.findOne({ email });
+  console.log(user);
+  if (user && loginBy === "google") {
+    console.log("logged in via google.");
+    cookieToken(user, res);
+    return;
+  }
+
+  if (user) {
     console.log("user already exists");
     res.status(401).send("User already exists");
     return;
   }
 
-  const user = await User.create({
+  user = await User.create({
     name,
     email,
     password,
+    loginBy,
   });
 
+  console.log(`Sign up via ${loginBy}`);
   cookieToken(user, res);
 });
 
@@ -50,6 +62,7 @@ exports.login = BigPromise(async (req, res, next) => {
   }
 
   // if everything is fine then generate token
+  console.log("logged in via email");
   cookieToken(user, res);
 });
 

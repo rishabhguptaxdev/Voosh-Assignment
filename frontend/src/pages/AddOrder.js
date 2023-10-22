@@ -49,8 +49,8 @@ const AddOrder = () => {
     handleAddOrder();
   };
 
-  if (!getToken()) {
-    return <Navigate to="/loginuser" />;
+  if (!localStorage.getItem("isLoggedIn")) {
+    return <Navigate to="/api/v1/loginuser" />;
   }
 
   return (

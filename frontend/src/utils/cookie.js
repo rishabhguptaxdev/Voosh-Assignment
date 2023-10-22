@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 // Method to set data in cookies
 export function setCookie(token, context) {
   Cookies.set("token", token, {
-    expires: process.env.COOKIE_EXPIRY || 5,
+    expires: 5,
   });
   context.setIsLoggedIn(true);
 }

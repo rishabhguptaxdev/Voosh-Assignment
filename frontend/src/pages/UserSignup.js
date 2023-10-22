@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -10,10 +10,7 @@ const UserSignup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  if (getToken()) {
-    return <Navigate to="/getorder" />;
-  }
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     context.showLoader();
@@ -25,6 +22,7 @@ const UserSignup = () => {
             name: name,
             email: email,
             password: password,
+            loginBy: "email",
           },
           {
             withCredentials: true,
@@ -36,7 +34,10 @@ const UserSignup = () => {
             setCookie(response.data.token, context);
             context.setUserName(response.data.userName);
             console.log("user signed up successfully");
+            localStorage.setItem("isLoggedIn", 1);
+            localStorage.setItem("name", response.data.userName);
             toast(`Welcome ${response.data.user.name}`, { type: "info" });
+            navigate("/api/v1/addorder");
           }
         });
     } catch (error) {
@@ -46,10 +47,9 @@ const UserSignup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSignUp();
-  };
+  if (localStorage.getItem("isLoggedIn")) {
+    return <Navigate to="/api/v1/addorder" />;
+  }
 
   return (
     <>
@@ -66,48 +66,45 @@ const UserSignup = () => {
           <div className="card">
             <div className="card-body">
               <h4 className="card-title text-center">User SignUp</h4>
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">
-                    Name
-                  </label>
-                  <input
-                    type="name"
-                    className="form-control"
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                  Sign Up
-                </button>
-              </form>
-
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">
+                  Name
+                </label>
+                <input
+                  type="name"
+                  className="form-control"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <button onClick={handleSignUp} className="btn btn-primary">
+                Sign Up
+              </button>
               <br />
             </div>
           </div>

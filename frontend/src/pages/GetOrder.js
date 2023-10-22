@@ -9,7 +9,7 @@ const GetOrder = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
+    const getOrder = async () => {
       try {
         await axios
           .get(
@@ -33,7 +33,8 @@ const GetOrder = () => {
       } catch (error) {
         if (error.response && error.response.status === 500) {
           removeCookie();
-          navigate("/loginuser");
+          localStorage.clear();
+          navigate("/api/v1/loginuser");
         }
         console.log(
           "something went wrong while getting orders details from server."
@@ -41,11 +42,13 @@ const GetOrder = () => {
         context.hideLoader();
         context.setIsLoggedIn(false);
       }
-    })();
+    };
+
+    getOrder();
   }, []);
 
-  if (!getToken()) {
-    return <Navigate to="/loginuser" />;
+  if (!localStorage.getItem("isLoggedIn")) {
+    return <Navigate to="/api/v1/loginuser" />;
   }
 
   return (

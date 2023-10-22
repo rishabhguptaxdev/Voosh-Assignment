@@ -1,18 +1,17 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { getToken } from "../utils/cookie";
 
 const Home = () => {
-  if (getToken()) {
+  if (localStorage.getItem("isLoggedIn")) {
     console.log(
-      "redirecting to get order /getorder route because token is found in the cookie."
+      "redirecting to get order /addorder route because token is found in the cookie."
     );
-    return <Navigate to="/getorder" />;
+    return <Navigate to="/api/v1/addorder" />;
   } else {
     console.log(
       "redirecting to login screen /loginuser because token is not found in the cookie."
     );
-    return <Navigate to="/loginuser" />;
+    return <Navigate to="/api/v1/loginuser" />;
   }
 };
 

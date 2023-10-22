@@ -53,10 +53,10 @@ const App = () => {
         <NavBar />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/loginuser" element={<UserLogin />} />
-          <Route path="/adduser" element={<UserSignup />} />
-          <Route path="/addorder" element={<AddOrder />} />
-          <Route path="/getorder" element={<GetOrder />} />
+          <Route path="/api/v1/loginuser" element={<UserLogin />} />
+          <Route path="/api/v1/adduser" element={<UserSignup />} />
+          <Route path="/api/v1/addorder" element={<AddOrder />} />
+          <Route path="/api/v1/getorder" element={<GetOrder />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </UserContext.Provider>
